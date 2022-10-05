@@ -7,10 +7,12 @@ const InputText = (props) => {
 
   return (
     <Container>
-      <Image
-        source={props.icon}
-        style={{ width: 20, height: 20, marginRight: 10 }}
-      />
+      {props.icon && (
+        <Image
+          source={props.icon}
+          style={{ width: 20, height: 20, marginRight: 10 }}
+        />
+      )}
       <TextInput
         style={{ width: 200 }}
         placeholder={props.name}
