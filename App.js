@@ -6,7 +6,7 @@ import Products from "./src/pages/Products";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Products />
+      <Login />
     </View>
   );
 }
