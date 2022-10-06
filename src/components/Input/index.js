@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput, Image } from "react-native";
+import { TextInput, Image, Text } from "react-native";
 import { Container } from "./styles";
 
 const InputText = (props) => {

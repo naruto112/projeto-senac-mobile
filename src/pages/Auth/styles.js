@@ -22,7 +22,7 @@ export const Title = styled.Text`
   margin-right: 20px;
   font-size: 64px;
   color: #4b4b4b;
-  /* font-family: "RobotoCondensed-Bold"; */
+  font-family: "RobotoCondensed-Bold"; 
 `;
 
 export const Button = styled(RectButton)`
@@ -41,6 +41,6 @@ export const ButtonText = styled.Text`
   justify-content: center;
   text-align: center;
   color: #fff;
-  /* font-family: "RobotoCondensed-Bold"; */
+  font-family: "RobotoCondensed-Bold";
   font-size: 16px;
 `;
