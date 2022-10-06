@@ -1,6 +1,5 @@
 import React from "react";
 import { View } from "react-native";
-
 import { Container, ViewTitle, Title, Button, ButtonText } from "./styles";
 
 import Email from "../../../assets/icons/at-sign.png";
@@ -16,8 +15,8 @@ const Auth = () => {
       <Container>
         <ViewTitle>
           <Title>Go CRUD</Title>
-          <InputText name="Digite o email" icon={Email} />
-          <InputText name="Digite a senha" icon={Lock} />
+          <InputText name="Digite o email" icon="email" />
+          <InputText name="Digite a senha" icon="lock" type="" />
           <Button onPress={() => {}}>
             <ButtonText>Entrar</ButtonText>
           </Button>
