@@ -74,7 +74,7 @@ export const List = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 345px;
+  width: 340px;
   height: 70px;
 `;
 
@@ -95,5 +95,5 @@ export const Control = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 65px;
+  width: 75px;
 `;

@@ -23,7 +23,7 @@ import CustomerImage from "../../../assets/image/add-customer.png";
 import ProductImage from "../../../assets/image/products.png";
 import OrderImage from "../../../assets/image/orders.png";
 import EditImage from "../../../assets/image/edit.png";
-import DeleteImage from "../../../assets/image/trash-2.png";
+import DeleteImage from "../../../assets/image/trash-bin.png";
 import PlusAdd from "../../../assets/image/plus.png";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -111,8 +111,8 @@ const Home = () => {
               <Text>Maya Johns</Text>
             </AvatarImage>
             <Control>
-              <Image source={EditImage} style={{ width: 20, height: 20 }} />
-              <Image source={DeleteImage} style={{ width: 20, height: 20 }} />
+              <Image source={EditImage} style={{ width: 34, height: 34 }} />
+              <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
             </Control>
           </List>
           <List>
@@ -132,8 +132,8 @@ const Home = () => {
               <Text>Maya Johns</Text>
             </AvatarImage>
             <Control>
-              <Image source={EditImage} style={{ width: 20, height: 20 }} />
-              <Image source={DeleteImage} style={{ width: 20, height: 20 }} />
+              <Image source={EditImage} style={{ width: 34, height: 34 }} />
+              <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
             </Control>
           </List>
           <List>
@@ -153,8 +153,8 @@ const Home = () => {
               <Text>Maya Johns</Text>
             </AvatarImage>
             <Control>
-              <Image source={EditImage} style={{ width: 20, height: 20 }} />
-              <Image source={DeleteImage} style={{ width: 20, height: 20 }} />
+              <Image source={EditImage} style={{ width: 34, height: 34 }} />
+              <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
             </Control>
           </List>
           <List>
@@ -174,8 +174,8 @@ const Home = () => {
               <Text>Maya Johns</Text>
             </AvatarImage>
             <Control>
-              <Image source={EditImage} style={{ width: 20, height: 20 }} />
-              <Image source={DeleteImage} style={{ width: 20, height: 20 }} />
+              <Image source={EditImage} style={{ width: 34, height: 34 }} />
+              <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
             </Control>
           </List>
         </ScrollView>
