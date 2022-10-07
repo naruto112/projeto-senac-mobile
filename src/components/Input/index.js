@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TextInput, Image, Text } from "react-native";
 import { Container } from "./styles";
 import { Entypo } from "@expo/vector-icons";
 
 const InputText = (props) => {
   const [text, setText] = React.useState("");
+  const [password, setPassword] = React.useState(false);
+
+  useEffect(() => {
+    props.password && setPassword(true);
+  }, [password]);
 
   return (
-    <Container>
+    <Container style={props.style}>
       {props.icon && (
-        // <Image
-        //   source={props.icon}
-        //   style={{ width: 20, height: 20, marginRight: 10 }}
-        // />
         <Entypo
           name={props.icon}
           style={{ marginRight: 10 }}
@@ -21,9 +22,8 @@ const InputText = (props) => {
         />
       )}
       <TextInput
-        style={{ width: 200 }}
         placeholder={props.name}
-        pa
+        secureTextEntry={password}
         value={text}
         onChangeText={(value) => setText(value)}
       />
