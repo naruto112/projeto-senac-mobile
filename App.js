@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Login from "./src/pages/Auth";
 import Products from "./src/pages/Products";
 import Home from "./src/pages/Home";
+import Customers from "./src/pages/Customers";
 
 import { useFonts } from "expo-font";
 
@@ -19,7 +20,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Products />
+      <Customers />
     </View>
   );
 }

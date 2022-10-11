@@ -11,8 +11,6 @@ import {
 } from "../Auth/styles";
 import InputText from "../../components/Input";
 
-import { useFonts } from "expo-font";
-
 const Products = () => {
   const [text, setText] = React.useState("");
 
