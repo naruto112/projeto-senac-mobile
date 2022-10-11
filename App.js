@@ -4,10 +4,22 @@ import Login from "./src/pages/Auth";
 import Products from "./src/pages/Products";
 import Home from "./src/pages/Home";
 
+import { useFonts } from "expo-font";
+
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "RobotoCondensed-Bold": require("./assets/fonts/RobotoCondensed-Bold.ttf"),
+    "RobotoCondensed-Italic": require("./assets/fonts/RobotoCondensed-Italic.ttf"),
+    "RobotoCondensed-Regular": require("./assets/fonts/RobotoCondensed-Regular.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
-      <Home />
+      <Products />
     </View>
   );
 }

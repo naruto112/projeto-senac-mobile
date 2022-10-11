@@ -5,18 +5,7 @@ import { Container, ViewTitle, Title } from "./styles";
 import InputText from "../../components/Input";
 import ButtonNative from "../../components/ButtonNative";
 
-import { useFonts } from "expo-font";
-
 const Auth = () => {
-  const [fontsLoaded] = useFonts({
-    "RobotoCondensed-Bold": require("../../../assets/fonts/RobotoCondensed-Bold.ttf"),
-    "RobotoCondensed-Italic": require("../../../assets/fonts/RobotoCondensed-Italic.ttf"),
-    "RobotoCondensed-Regular": require("../../../assets/fonts/RobotoCondensed-Regular.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <View>
