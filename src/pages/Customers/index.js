@@ -17,9 +17,10 @@ const Customers = () => {
   return (
     <View>
       <Container>
-        <ScrollView>
-          <ViewTitle style={{flex:1, flexDirection:"rows"}}>
-            <Title>Clientes</Title>
+        <ViewTitle style={{marginBottom: 0}}>
+          <Title>Clientes</Title>
+        </ViewTitle>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <InputText name="Id" />
             <InputText name="Nome" />
             <InputText name="Preco" />
@@ -31,9 +32,10 @@ const Customers = () => {
             <InputText name="Pais" />
             <InputText name="CEP" />
             <InputText name="Telefone" />
-            <ButtonNative text="Cadastrar Cliente" />
-          </ViewTitle>
         </ScrollView>
+        <View style={{height:110}}>
+          <ButtonNative text="Cadastrar Cliente" />
+        </View>
       </Container>
     </View>
   );
