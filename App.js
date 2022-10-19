@@ -5,6 +5,7 @@ import Products from "./src/pages/Products";
 import Home from "./src/pages/Home";
 import Customers from "./src/pages/Customers";
 import Users from "./src/pages/Users";
+import Test from "./src/pages/Test";
 
 import { useFonts } from "expo-font";
 
