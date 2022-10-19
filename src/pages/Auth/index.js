@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
-
+import { apiUser } from "../../services/apis";
 import { Container, ViewTitle, Title } from "./styles";
 import InputText from "../../components/Input";
 import ButtonNative from "../../components/ButtonNative";
 
 const Auth = () => {
-  const handle = () => {};
+  const [user, setUser] = useState();
+
+  const handle = () => {
+    apiUser
+      .post("auth", {
+        username: "admin@automacao.org.br",
+        password: "password01",
+      })
+      .then((event) => {
+        console.log(event);
+      });
+  };
 
   return (
     <View>
