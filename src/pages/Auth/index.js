@@ -6,6 +6,7 @@ import InputText from "../../components/Input";
 import ButtonNative from "../../components/ButtonNative";
 
 const Auth = () => {
+  const handle = () => {};
 
   return (
     <View>
