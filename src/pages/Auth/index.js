@@ -20,20 +20,14 @@ const Auth = () => {
   };
 
   return (
-    <View>
-      <Container>
-        <ViewTitle>
-          <Title>Go Life</Title>
-          <InputText
-            name="Digite o email"
-            icon="email"
-            style={{ width: 300 }}
-          />
-          <InputText name="Digite a senha" icon="lock" password={true} />
-          <ButtonNative text="Entrar" />
-        </ViewTitle>
-      </Container>
-    </View>
+    <Container>
+      <ViewTitle>
+        <Title>Go Life</Title>
+        <InputText name="Digite o email" icon="email" style={{ width: 300 }} />
+        <InputText name="Digite a senha" icon="lock" password={true} />
+        <ButtonNative text="Entrar" />
+      </ViewTitle>
+    </Container>
   );
 };
 

@@ -1,12 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import Login from "./src/pages/Auth";
-import Products from "./src/pages/Products";
-import Home from "./src/pages/Home";
-import Customers from "./src/pages/Customers";
-import Users from "./src/pages/Users";
-
 import { useFonts } from "expo-font";
+import Routes from "./src/routes";
+import Home from "./src/pages/Home";
+import Auth from "./src/pages/Auth";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,7 +18,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Login />
+      <Routes />
     </View>
   );
 }
@@ -30,7 +27,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F0F0F5",
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });
