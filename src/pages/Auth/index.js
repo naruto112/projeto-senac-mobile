@@ -1,21 +1,39 @@
 import React, { useState } from "react";
 import { View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { apiUser } from "../../services/apis";
 import { Container, ViewTitle, Title } from "./styles";
 import InputText from "../../components/Input";
 import ButtonNative from "../../components/ButtonNative";
 
-const Auth = () => {
-  const [user, setUser] = useState();
+const Auth = ({ navigation }) => {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [btnLogin, setBtnLogin] = useState("Entrar");
+  const [style, setStyle] = useState();
 
   const handle = () => {
+    setBtnLogin("Entrando...");
+    setStyle({
+      opacity: 0.5,
+    });
     apiUser
       .post("auth", {
-        username: "admin@automacao.org.br",
-        password: "password01",
+        username,
+        password,
       })
-      .then((event) => {
-        console.log(event);
+      .catch(() => {
+        setStyle({});
+        setBtnLogin("Entrar");
+      })
+      .then((response) => {
+        AsyncStorage.setItem(
+          "@storage_token",
+          response.data.token.split("Bearer ")[1]
+        );
+        setStyle({});
+        setBtnLogin("Entrar");
+        navigation.push("Home");
       });
   };
 
@@ -23,9 +41,19 @@ const Auth = () => {
     <Container>
       <ViewTitle>
         <Title>Go Life</Title>
-        <InputText name="Digite o email" icon="email" style={{ width: 300 }} />
-        <InputText name="Digite a senha" icon="lock" password={true} />
-        <ButtonNative text="Entrar" />
+        <InputText
+          name="Digite o email"
+          icon="email"
+          style={{ width: 300 }}
+          onChangeText={setUsername}
+        />
+        <InputText
+          name="Digite a senha"
+          icon="lock"
+          password={true}
+          onChangeText={setPassword}
+        />
+        <ButtonNative text={btnLogin} onPress={handle} style={style} />
       </ViewTitle>
     </Container>
   );

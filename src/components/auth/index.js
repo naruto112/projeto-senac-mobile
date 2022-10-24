@@ -1,20 +1,9 @@
-import { AsyncStorage } from "react-native";
-import { apiUser } from "../../services/apis";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Auth = () => {
-  const { data } = apiUser.post("auth", {
-    username: "admin@automacao.org.br",
-    password: "password01",
+const Auth = (navigation) => {
+  AsyncStorage.getItem("@storage_token").then((res) => {
+    if (!res) navigation.push("SignIn");
   });
-
-  // if (data.token) {
-  //   // const token = data.token.split(" ");
-
-  //   console.log(data.token);
-  //   // AsyncStorage.getItem("token", token);
-  // }
-
-  return false;
 };
 
 export default Auth;

@@ -4,7 +4,7 @@ import { Button, ButtonText } from "./styles";
 
 const ButtonNative = (props) => {
   return (
-    <Button onPress={() => {}}>
+    <Button onPress={() => props.onPress(props.value)} style={props.style}>
       <ButtonText>{props.text}</ButtonText>
     </Button>
   );

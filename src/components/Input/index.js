@@ -7,6 +7,11 @@ const InputText = (props) => {
   const [text, setText] = React.useState("");
   const [password, setPassword] = React.useState(false);
 
+  function handleCapture(params) {
+    props.onChangeText(params);
+    setText(params);
+  }
+
   useEffect(() => {
     props.password && setPassword(true);
   }, [password]);
@@ -25,7 +30,7 @@ const InputText = (props) => {
         placeholder={props.name}
         secureTextEntry={password}
         value={text}
-        onChangeText={(value) => setText(value)}
+        onChangeText={(value) => handleCapture(value)}
       />
     </Container>
   );

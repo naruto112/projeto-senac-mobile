@@ -25,10 +25,13 @@ import OrderImage from "../../../assets/image/orders.png";
 import EditImage from "../../../assets/image/edit.png";
 import DeleteImage from "../../../assets/image/trash-bin.png";
 import PlusAdd from "../../../assets/image/plus.png";
+import isAuth from "../../components/auth";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const Home = () => {
+const Home = ({ navigation }) => {
+  isAuth(navigation);
+
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
   });
