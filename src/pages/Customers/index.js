@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, ScrollView, SafeAreaView } from "react-native";
 import ButtonNative from "../../components/ButtonNative";
 import { apiCustomer } from "../../services/apis";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,17 +24,17 @@ const Customers = ({ navigation }) => {
   const [customerZipCode, setCustomerZipCode] = React.useState();
   const [customerPhoneNumber, setCustomerPhoneNumber] = React.useState();
   const [btnCadastrar, setBtnCadastrar] = useState("Cadastrar Cliente");
+  const [style, setStyle] = useState();
 
   const handle = () => {
-    btnCadastrar("Cadastrando...");
+    setBtnCadastrar("Cadastrando...");
     setStyle({
       opacity: 0.5,
     });
+
     apiCustomer
-      .header(
-        "Authorization", AsyncStorage.getItem("@storage_token")
-      )
-      .put("save", {
+      .put(
+        "/api/v1/customers/save", {
         customerName,
         customerEmail,
         customerCompany,
@@ -47,17 +47,17 @@ const Customers = ({ navigation }) => {
       })
       .catch(() => {
         setStyle({});
-        btnCadastrar("Cadastrar Cliente");
+        setBtnCadastrar("Cadastrar Cliente");
       })
       .then((response) => {
         setStyle({});
-        btnCadastrar("Cadastrar Cliente");
-        navigation.push("Customers");
+        setBtnCadastrar("Cadastrar Cliente");
+        navigation.push("Home");
       });
   };
 
   return (
-    <View>
+    <SafeAreaView style={{flex: 1}}>
       <Container>
         <ViewTitle style={{marginBottom: 0}}>
           <Title>Clientes</Title>
@@ -65,6 +65,7 @@ const Customers = ({ navigation }) => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <InputText 
               name="Id"
+              editable="false"
             />
             <InputText 
               name="Nome" 
@@ -110,7 +111,7 @@ const Customers = ({ navigation }) => {
           />
         </View>
       </Container>
-    </View>
+    </SafeAreaView>
   );
 };
 

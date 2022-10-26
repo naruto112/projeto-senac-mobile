@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 import { useFonts } from "expo-font";
 import {
@@ -26,11 +26,38 @@ import EditImage from "../../../assets/image/edit.png";
 import DeleteImage from "../../../assets/image/trash-bin.png";
 import PlusAdd from "../../../assets/image/plus.png";
 import isAuth from "../../components/auth";
+import { apiCustomer, apiUser } from "../../services/apis";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+
 const Home = ({ navigation }) => {
   isAuth(navigation);
+
+  const [customer, setCustomer] = useState(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    handle("Users");
+  })
+
+  const handle = (param) => {
+    //setCustomer(null);
+    //setUser(null);
+
+    if (param == "Customers") {
+      apiCustomer.get("/api/v1/customers/all").then(response => {
+        setCustomer(response.data);
+      })
+      //console.log(customer);
+    }
+
+    if (param == "Users") {
+      apiUser.get("/api/v1/users/all").then(response => {
+        setUser(response.data);
+      })
+    }
+  }
 
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
@@ -53,7 +80,8 @@ const Home = ({ navigation }) => {
       <Body>
         <Menu>
           <Bullet>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handle("Users")}>
               <Image
                 source={UserImage}
                 style={{ width: 50, height: 50, marginBottom: 10 }}
@@ -62,7 +90,8 @@ const Home = ({ navigation }) => {
             <BulletText>Usuários</BulletText>
           </Bullet>
           <Bullet>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handle("Customers")}>
               <Image
                 source={CustomerImage}
                 style={{ width: 50, height: 50, marginBottom: 10 }}
@@ -71,7 +100,8 @@ const Home = ({ navigation }) => {
             <BulletText>Clientes</BulletText>
           </Bullet>
           <Bullet>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handle("Products")}>
               <Image
                 source={ProductImage}
                 style={{ width: 50, height: 50, marginBottom: 10 }}
@@ -97,90 +127,56 @@ const Home = ({ navigation }) => {
       </PlusView>
       <Table>
         <ScrollView showsVerticalScrollIndicator={false}>
+
+        {customer && customer.map(c => (
           <List>
-            <AvatarImage>
-              <Image
-                source={UserImage}
-                style={{
-                  width: 50,
-                  height: 50,
-                  marginBottom: 10,
-                  borderRadius: 50,
-                  backgroundColor: "#E6E6E6",
-                  justifyContent: "center",
-                  marginRight: 20,
-                }}
-              />
-              <Text>Maya Johns</Text>
-            </AvatarImage>
-            <Control>
-              <Image source={EditImage} style={{ width: 34, height: 34 }} />
-              <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
-            </Control>
-          </List>
+          <AvatarImage>
+            <Image
+              source={UserImage}
+              style={{
+                width: 50,
+                height: 50,
+                marginBottom: 10,
+                borderRadius: 50,
+                backgroundColor: "#E6E6E6",
+                justifyContent: "center",
+                marginRight: 20,
+              }}
+            />
+            <Text>{c.name}</Text>
+          </AvatarImage>
+          <Control>
+            <Image source={EditImage} style={{ width: 34, height: 34 }} />
+            <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
+          </Control>
+        </List>
+        ) )}
+
+        {user && user.map(u => (
           <List>
-            <AvatarImage>
-              <Image
-                source={UserImage}
-                style={{
-                  width: 50,
-                  height: 50,
-                  marginBottom: 10,
-                  borderRadius: 50,
-                  backgroundColor: "#E6E6E6",
-                  justifyContent: "center",
-                  marginRight: 20,
-                }}
-              />
-              <Text>Maya Johns</Text>
-            </AvatarImage>
-            <Control>
-              <Image source={EditImage} style={{ width: 34, height: 34 }} />
-              <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
-            </Control>
-          </List>
-          <List>
-            <AvatarImage>
-              <Image
-                source={UserImage}
-                style={{
-                  width: 50,
-                  height: 50,
-                  marginBottom: 10,
-                  borderRadius: 50,
-                  backgroundColor: "#E6E6E6",
-                  justifyContent: "center",
-                  marginRight: 20,
-                }}
-              />
-              <Text>Maya Johns</Text>
-            </AvatarImage>
-            <Control>
-              <Image source={EditImage} style={{ width: 34, height: 34 }} />
-              <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
-            </Control>
-          </List>
-          <List>
-            <AvatarImage>
-              <Image
-                source={UserImage}
-                style={{
-                  width: 50,
-                  height: 50,
-                  marginBottom: 10,
-                  borderRadius: 50,
-                  backgroundColor: "#E6E6E6",
-                  justifyContent: "center",
-                  marginRight: 20,
-                }}
-              />
-              <Text>Maya Johns</Text>
-            </AvatarImage>
-            <Control>
-              <Image source={EditImage} style={{ width: 34, height: 34 }} />
-              <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
-            </Control>
-          </List>
+          <AvatarImage>
+            <Image
+              source={UserImage}
+              style={{
+                width: 50,
+                height: 50,
+                marginBottom: 10,
+                borderRadius: 50,
+                backgroundColor: "#E6E6E6",
+                justifyContent: "center",
+                marginRight: 20,
+              }}
+            />
+            <Text>{u.name}</Text>
+          </AvatarImage>
+          <Control>
+            <Image source={EditImage} style={{ width: 34, height: 34 }} />
+            <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
+          </Control>
+        </List>
+        ) )}
+
+          
         </ScrollView>
       </Table>
     </Container>

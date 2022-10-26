@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useState } from "react";
+import { View, Text, SafeAreaView } from "react-native";
 import ButtonNative from "../../components/ButtonNative";
 import { apiUser } from "../../services/apis";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -22,7 +22,7 @@ const Users = ({ navigation }) => {
   const [btnCadastrar, setBtnCadastrar] = useState("Cadastrar Usuário");
 
   const handle = () => {
-    btnCadastrar("Cadastrando...");
+    setBtnCadastrar("Cadastrando...");
     setStyle({
       opacity: 0.5,
     });
@@ -38,22 +38,23 @@ const Users = ({ navigation }) => {
       })
       .catch(() => {
         setStyle({});
-        btnCadastrar("Cadastrar Usuário");
+        setBtnCadastrar("Cadastrar Usuário");
       })
       .then((response) => {
         setStyle({});
-        btnCadastrar("Cadastrar Usuário");
-        navigation.push("Users");
+        setBtnCadastrar("Cadastrar Usuário");
+        navigation.push("Home");
       });
   };
 
   return (
-    <View>
+    <SafeAreaView style={{flex: 1}}>
       <Container>
         <ViewTitle>
           <Title>Usuários</Title>
           <InputText 
             name="Id"
+            editable="false"
           />
           <InputText 
             name="Nome" 
@@ -81,7 +82,7 @@ const Users = ({ navigation }) => {
           />
         </ViewTitle>
       </Container>
-    </View>
+    </SafeAreaView>
   );
 };
 

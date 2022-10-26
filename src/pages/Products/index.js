@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useState } from "react";
+import { View, Text, SafeAreaView } from "react-native";
 import ButtonNative from "../../components/ButtonNative";
 import { apiProduct } from "../../services/apis";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -21,7 +21,7 @@ const Products = ({ navigation }) => {
   const [btnCadastrar, setBtnCadastrar] = useState("Cadastrar Produto");
 
   const handle = () => {
-    btnCadastrar("Cadastrando...");
+    setBtnCadastrar("Cadastrando...");
     setStyle({
       opacity: 0.5,
     });
@@ -37,22 +37,23 @@ const Products = ({ navigation }) => {
       })
       .catch(() => {
         setStyle({});
-        btnCadastrar("Cadastrar Produto");
+        setBtnCadastrar("Cadastrar Produto");
       })
       .then((response) => {
         setStyle({});
-        btnCadastrar("Cadastrar Produto");
-        navigation.push("Products");
+        setBtnCadastrar("Cadastrar Produto");
+        navigation.push("Home");
       });
   };
 
   return (
-    <View>
+    <SafeAreaView style={{flex: 1}}>
       <Container>
         <ViewTitle>
           <Title>Produtos</Title>
           <InputText 
             name="Id"
+            editable="false"
           />
           <InputText 
             name="Nome"
@@ -76,7 +77,7 @@ const Products = ({ navigation }) => {
           />
         </ViewTitle>
       </Container>
-    </View>
+    </SafeAreaView>
   );
 };
 

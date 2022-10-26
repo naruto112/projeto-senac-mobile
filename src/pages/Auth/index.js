@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { apiUser } from "../../services/apis";
+import { apiUser, apiCustomer } from "../../services/apis";
 import { Container, ViewTitle, Title } from "./styles";
 import InputText from "../../components/Input";
 import ButtonNative from "../../components/ButtonNative";
@@ -29,8 +29,11 @@ const Auth = ({ navigation }) => {
       .then((response) => {
         AsyncStorage.setItem(
           "@storage_token",
-          response.data.token.split("Bearer ")[1]
+          response.data.token
         );
+        apiCustomer.defaults.headers.common = {'Authorization': response.data.token};
+        apiUser.defaults.headers.common = {'Authorization': response.data.token};
+  
         setStyle({});
         setBtnLogin("Entrar");
         navigation.push("Home");
