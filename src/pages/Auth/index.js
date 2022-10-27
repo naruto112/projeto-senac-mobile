@@ -1,5 +1,4 @@
-import React, { useState, defaultVal } from "react";
-import { View } from "react-native";
+import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { apiUser, apiCustomer, apiProduct } from "../../services/apis";
 import { Container, ViewTitle, Title } from "./styles";

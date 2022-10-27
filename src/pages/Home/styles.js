@@ -1,10 +1,10 @@
+import { Platform } from "react-native";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-  flex: 1;
+  ${Platform.OS === "android" ? "flex: 1;" : "flex: 0.8;"}
   align-items: center;
   justify-content: center;
-  padding: 0 30px ${Platform.OS === "android" ? 150 : 0}px;
 `;
 
 export const HeaderColor = styled.View`
@@ -66,9 +66,8 @@ export const BulletText = styled.Text`
 `;
 
 export const Table = styled.View`
-  width: 343px;
-  height: 500px;
-  ${Platform.OS == "android"?'flex: 1;':''}
+  align-items: center;
+  flex: 1;
 `;
 
 export const List = styled.View`
@@ -76,7 +75,6 @@ export const List = styled.View`
   align-items: center;
   justify-content: space-between;
   width: 340px;
-  height: 70px;
 `;
 
 export const PlusView = styled.View`
@@ -84,8 +82,6 @@ export const PlusView = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 0px;
-  margin-top: ${Platform.OS == "android"?'-80px;':'0px;'}
 `;
 
 export const AvatarImage = styled.View`
