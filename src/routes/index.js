@@ -13,7 +13,10 @@ const AppStack = createStackNavigator();
 const Routes = () => {
   return (
     <NavigationContainer>
-      <AppStack.Navigator headerMode="none" initialRouteName="SignIn">
+      <AppStack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="SignIn"
+      >
         <AppStack.Screen name="SignIn" component={SignIn} />
         <AppStack.Screen name="Home" component={Home} />
         <AppStack.Screen name="Customers" component={Customers} />

@@ -2,7 +2,8 @@ import styled from "styled-components/native";
 import { Platform } from "react-native";
 
 export const Container = styled.View`
-  flex: 1;
+  ${Platform.OS === "android" ? "margin-top: 100px;" : ""}
+  ${Platform.OS !== "android" ? "flex: 1;" : ""}
   align-items: center;
   justify-content: center;
   padding: 0 30px ${Platform.OS === "android" ? 150 : 0}px;

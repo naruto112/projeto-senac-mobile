@@ -7,8 +7,8 @@ import InputText from "../../components/Input";
 import ButtonNative from "../../components/ButtonNative";
 
 const Auth = ({ navigation }) => {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState("admin@automacao.org.br");
+  const [password, setPassword] = useState("password01");
   const [btnLogin, setBtnLogin] = useState("Entrar");
   const [style, setStyle] = useState();
 
@@ -27,13 +27,14 @@ const Auth = ({ navigation }) => {
         setBtnLogin("Entrar");
       })
       .then((response) => {
-        AsyncStorage.setItem(
-          "@storage_token",
-          response.data.token
-        );
-        apiCustomer.defaults.headers.common = {'Authorization': response.data.token};
-        apiUser.defaults.headers.common = {'Authorization': response.data.token};
-  
+        AsyncStorage.setItem("@storage_token", response.data.token);
+        apiCustomer.defaults.headers.common = {
+          Authorization: response.data.token,
+        };
+        apiUser.defaults.headers.common = {
+          Authorization: response.data.token,
+        };
+
         setStyle({});
         setBtnLogin("Entrar");
         navigation.push("Home");
