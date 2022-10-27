@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { apiUser, apiCustomer, apiProduct } from "../../services/apis";
 import { Container, ViewTitle, Title } from "./styles";
@@ -9,9 +10,11 @@ const Auth = ({ navigation }) => {
   const [username, setUsername] = useState("admin@automacao.org.br");
   const [password, setPassword] = useState("password01");
   const [btnLogin, setBtnLogin] = useState("Entrar");
+  const [loading, setLoading] = useState(false);
   const [style, setStyle] = useState();
 
   const handle = () => {
+    setLoading(true);
     setBtnLogin("Entrando...");
     setStyle({
       opacity: 0.5,
@@ -39,7 +42,13 @@ const Auth = ({ navigation }) => {
 
         setStyle({});
         setBtnLogin("Entrar");
-        navigation.push("Home");
+        navigation.navigate("Home");
+      })
+      .catch(() => {
+        handle();
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -59,6 +68,7 @@ const Auth = ({ navigation }) => {
           password={true}
           onChangeText={setPassword}
         />
+        {loading && <ActivityIndicator size={80} color="#5856d6" />}
         <ButtonNative text={btnLogin} onPress={handle} style={style} />
       </ViewTitle>
     </Container>

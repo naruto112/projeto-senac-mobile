@@ -29,6 +29,7 @@ import isAuth from "../../components/auth";
 import { apiCustomer, apiUser, apiProduct } from "../../services/apis";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Home = ({ navigation }) => {
   isAuth(navigation);
@@ -46,6 +47,11 @@ const Home = ({ navigation }) => {
       });
     }
   }, [user]);
+
+  const handlegoBack = () => {
+    AsyncStorage.clear();
+    navigation.navigate("SignIn");
+  };
 
   const handleCustomers = () => {
     setLoading(true);
@@ -121,7 +127,9 @@ const Home = ({ navigation }) => {
             <Welcome>
               <WelcomeText>Bem vindo ao sistema</WelcomeText>
             </Welcome>
-            <Image source={Avatar} style={{ width: 60, height: 60 }} />
+            <TouchableOpacity onPress={handlegoBack}>
+              <Image source={Avatar} style={{ width: 60, height: 60 }} />
+            </TouchableOpacity>
           </HeaderMain>
         </HeaderColor>
         <Body>
