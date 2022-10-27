@@ -26,7 +26,7 @@ import EditImage from "../../../assets/image/edit.png";
 import DeleteImage from "../../../assets/image/trash-bin.png";
 import PlusAdd from "../../../assets/image/plus.png";
 import isAuth from "../../components/auth";
-import { apiCustomer, apiUser } from "../../services/apis";
+import { apiCustomer, apiUser, apiProduct } from "../../services/apis";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -34,29 +34,47 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 const Home = ({ navigation }) => {
   isAuth(navigation);
 
-  const [customer, setCustomer] = useState(null);
-  const [user, setUser] = useState(null);
+  const [customer, setCustomer] = useState();
+  const [user, setUser] = useState();
+  const [navigate, setNavigate] = useState("Users");
+  const [product, setProduct] = useState();
 
   useEffect(() => {
-    handle("Users");
-  })
-
-  const handle = (param) => {
-    //setCustomer(null);
-    //setUser(null);
-
-    if (param == "Customers") {
-      apiCustomer.get("/api/v1/customers/all").then(response => {
-        setCustomer(response.data);
-      })
-      //console.log(customer);
-    }
-
-    if (param == "Users") {
+    if (user == null) {
       apiUser.get("/api/v1/users/all").then(response => {
         setUser(response.data);
       })
     }
+  }, [user]);
+
+  const handleCustomers = () => {
+    setUser('');
+    setProduct();
+    setNavigate("Customers");
+
+      apiCustomer.get("/api/v1/customers/all").then(response => {
+        setCustomer(response.data);
+      })
+  }
+
+  const handleUsers = () => {
+    setCustomer();
+    setProduct();
+    setNavigate("Users");
+
+      apiUser.get("/api/v1/users/all").then(response => {
+        setUser(response.data);
+      })
+  }
+
+  const handleProducts = () => {
+    setCustomer();
+    setUser('');
+    setNavigate("Products");
+
+      apiProduct.get("/api/v1/products/all").then(response => {
+        setProduct(response.data);
+      })
   }
 
   const [fontsLoaded] = useFonts({
@@ -81,7 +99,7 @@ const Home = ({ navigation }) => {
         <Menu>
           <Bullet>
             <TouchableOpacity
-              onPress={() => handle("Users")}>
+              onPress={handleUsers}>
               <Image
                 source={UserImage}
                 style={{ width: 50, height: 50, marginBottom: 10 }}
@@ -91,7 +109,7 @@ const Home = ({ navigation }) => {
           </Bullet>
           <Bullet>
             <TouchableOpacity
-              onPress={() => handle("Customers")}>
+              onPress={handleCustomers}>
               <Image
                 source={CustomerImage}
                 style={{ width: 50, height: 50, marginBottom: 10 }}
@@ -101,7 +119,7 @@ const Home = ({ navigation }) => {
           </Bullet>
           <Bullet>
             <TouchableOpacity
-              onPress={() => handle("Products")}>
+              onPress={handleProducts}>
               <Image
                 source={ProductImage}
                 style={{ width: 50, height: 50, marginBottom: 10 }}
@@ -121,18 +139,43 @@ const Home = ({ navigation }) => {
         </Menu>
       </Body>
       <PlusView>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.push(navigate)}>
           <Image source={PlusAdd} style={{ width: 40, height: 40 }} />
         </TouchableOpacity>
       </PlusView>
       <Table>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView styles={{height:1000}} showsVerticalScrollIndicator={false}>
 
-        {customer && customer.map(c => (
-          <List>
+        {user && user.map(u => (
+          <List key={u.id}>
           <AvatarImage>
             <Image
               source={UserImage}
+              style={{
+                width: 50,
+                height: 50,
+                marginBottom: 10,
+                borderRadius: 50,
+                backgroundColor: "#E6E6E6",
+                justifyContent: "center",
+                marginRight: 20,
+              }}
+            />
+            <Text>{u.name}</Text>
+          </AvatarImage>
+          <Control>
+            <Image source={EditImage} style={{ width: 34, height: 34 }} />
+            <Image source={DeleteImage} style={{ width: 30, height: 30 }} />
+          </Control>
+        </List>
+        ) )}
+
+
+        {customer && customer.map(c => (
+          <List key={c.id}>
+          <AvatarImage>
+            <Image
+              source={CustomerImage}
               style={{
                 width: 50,
                 height: 50,
@@ -152,11 +195,12 @@ const Home = ({ navigation }) => {
         </List>
         ) )}
 
-        {user && user.map(u => (
-          <List>
+
+        {product && product.map(p => (
+          <List key={p.id}>
           <AvatarImage>
             <Image
-              source={UserImage}
+              source={ProductImage}
               style={{
                 width: 50,
                 height: 50,
@@ -167,7 +211,7 @@ const Home = ({ navigation }) => {
                 marginRight: 20,
               }}
             />
-            <Text>{u.name}</Text>
+            <Text>{p.name}</Text>
           </AvatarImage>
           <Control>
             <Image source={EditImage} style={{ width: 34, height: 34 }} />

@@ -68,6 +68,7 @@ export const BulletText = styled.Text`
 export const Table = styled.View`
   width: 343px;
   height: 500px;
+  ${Platform.OS == "android"?'flex: 1;':''}
 `;
 
 export const List = styled.View`
@@ -84,6 +85,7 @@ export const PlusView = styled.View`
   align-items: center;
   justify-content: flex-end;
   margin-bottom: 0px;
+  margin-top: ${Platform.OS == "android"?'-80px;':'0px;'}
 `;
 
 export const AvatarImage = styled.View`

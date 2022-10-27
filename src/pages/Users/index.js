@@ -54,10 +54,10 @@ const Users = ({ navigation }) => {
           <Title>Usuários</Title>
           <InputText 
             name="Id"
-            editable="false"
           />
           <InputText 
             name="Nome" 
+            autoCapitalize={"words"}
             onChangeText={setUserName}  
           />
           <InputText 
