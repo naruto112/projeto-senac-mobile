@@ -59,7 +59,7 @@ const Customers = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View>
+      {/* <View>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={ArrowLeft}
@@ -72,8 +72,8 @@ const Customers = ({ navigation }) => {
             }}
           />
         </TouchableOpacity>
-      </View>
-      <Container>
+      </View> */}
+      <Container style={{ marginTop: -20, marginBottom: 40 }}>
         <ViewTitle style={{ marginBottom: 0 }}>
           <Title>Clientes</Title>
         </ViewTitle>
@@ -89,7 +89,7 @@ const Customers = ({ navigation }) => {
           <InputText name="CEP" onChangeText={setCustomerZipCode} />
           <InputText name="Telefone" onChangeText={setCustomerPhoneNumber} />
         </ScrollView>
-        <View style={{ height: 110 }}>
+        <View style={{ height: 110, marginTop: 20 }}>
           <ButtonNative text={btnCadastrar} onPress={handle} />
         </View>
       </Container>

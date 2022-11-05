@@ -48,7 +48,7 @@ const Products = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View>
+      {/* <View>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={ArrowLeft}
@@ -56,13 +56,11 @@ const Products = ({ navigation }) => {
               width: 30,
               height: 30,
               marginLeft: 40,
-              marginTop: 30,
-              marginBottom: 50,
             }}
           />
         </TouchableOpacity>
-      </View>
-      <Container>
+      </View> */}
+      <Container style={{ marginTop: 80 }}>
         <ViewTitle>
           <Title>Produtos</Title>
           <InputText name="Id" editable="false" />

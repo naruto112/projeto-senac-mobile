@@ -49,21 +49,7 @@ const Users = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={ArrowLeft}
-            style={{
-              width: 30,
-              height: 30,
-              marginLeft: 40,
-              marginTop: 30,
-              marginBottom: 50,
-            }}
-          />
-        </TouchableOpacity>
-      </View>
-      <Container>
+      <Container style={{ marginTop: 80 }}>
         <ViewTitle>
           <Title>Usuários</Title>
           <InputText name="Id" />
@@ -76,7 +62,9 @@ const Users = ({ navigation }) => {
           <InputText name="Senha" onChangeText={setUserPassword} />
           <InputText name="Confirmar Senha" onChangeText={setPasswordConfirm} />
           <InputText name="Grupos do usuário" onChangeText={setUserRoles} />
-          <ButtonNative text={btnCadastrar} onPress={handle} />
+          <View style={{ marginTop: 20 }}>
+            <ButtonNative text={btnCadastrar} onPress={handle} />
+          </View>
         </ViewTitle>
       </Container>
     </SafeAreaView>
