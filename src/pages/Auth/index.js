@@ -55,7 +55,7 @@ const Auth = ({ navigation }) => {
   return (
     <Container>
       <ViewTitle>
-        <Title>Go Life</Title>
+        <Title>Go Sales</Title>
         <InputText
           name="Digite o email"
           icon="email"

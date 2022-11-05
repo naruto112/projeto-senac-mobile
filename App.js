@@ -1,11 +1,10 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
 import Routes from "./src/routes";
-import Home from "./src/pages/Home";
-import Auth from "./src/pages/Auth";
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
   const [fontsLoaded] = useFonts({
     "RobotoCondensed-Bold": require("./assets/fonts/RobotoCondensed-Bold.ttf"),
     "RobotoCondensed-Italic": require("./assets/fonts/RobotoCondensed-Italic.ttf"),
@@ -27,7 +26,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F0F0F5",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
 });

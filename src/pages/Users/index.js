@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Image, SafeAreaView } from "react-native";
 import ButtonNative from "../../components/ButtonNative";
 import { apiUser } from "../../services/apis";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ArrowLeft from "../../../assets/image/arrow-left.png";
 
 import {
   Container,
@@ -12,6 +13,7 @@ import {
   ButtonText,
 } from "../Auth/styles";
 import InputText from "../../components/Input";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Users = ({ navigation }) => {
   const [userName, setUserName] = React.useState();
@@ -27,9 +29,7 @@ const Users = ({ navigation }) => {
       opacity: 0.5,
     });
     apiUser
-      .header(
-        "Authorization", AsyncStorage.getItem("@storage_token")
-      )
+      .header("Authorization", AsyncStorage.getItem("@storage_token"))
       .put("save", {
         userName,
         userUserName,
@@ -48,38 +48,35 @@ const Users = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            source={ArrowLeft}
+            style={{
+              width: 30,
+              height: 30,
+              marginLeft: 40,
+              marginTop: 30,
+              marginBottom: 50,
+            }}
+          />
+        </TouchableOpacity>
+      </View>
       <Container>
         <ViewTitle>
           <Title>Usuários</Title>
-          <InputText 
-            name="Id"
-          />
-          <InputText 
-            name="Nome" 
+          <InputText name="Id" />
+          <InputText
+            name="Nome"
             autoCapitalize={"words"}
-            onChangeText={setUserName}  
+            onChangeText={setUserName}
           />
-          <InputText 
-            name="Nome de usuário" 
-            onChangeText={setUserUserName}  
-          />
-          <InputText 
-            name="Senha" 
-            onChangeText={setUserPassword}  
-          />
-          <InputText 
-            name="Confirmar Senha" 
-            onChangeText={setPasswordConfirm}  
-          />
-          <InputText 
-            name="Grupos do usuário" 
-            onChangeText={setUserRoles}  
-          />
-          <ButtonNative 
-            text={btnCadastrar} 
-            onPress={handle} 
-          />
+          <InputText name="Nome de usuário" onChangeText={setUserUserName} />
+          <InputText name="Senha" onChangeText={setUserPassword} />
+          <InputText name="Confirmar Senha" onChangeText={setPasswordConfirm} />
+          <InputText name="Grupos do usuário" onChangeText={setUserRoles} />
+          <ButtonNative text={btnCadastrar} onPress={handle} />
         </ViewTitle>
       </Container>
     </SafeAreaView>

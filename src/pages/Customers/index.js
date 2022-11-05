@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, SafeAreaView } from "react-native";
+import { View, Image, ScrollView, SafeAreaView } from "react-native";
 import ButtonNative from "../../components/ButtonNative";
 import { apiCustomer } from "../../services/apis";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ArrowLeft from "../../../assets/image/arrow-left.png";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import {
   Container,
@@ -33,8 +35,7 @@ const Customers = ({ navigation }) => {
     });
 
     apiCustomer
-      .put(
-        "/api/v1/customers/save", {
+      .put("/api/v1/customers/save", {
         customerName,
         customerEmail,
         customerCompany,
@@ -57,58 +58,39 @@ const Customers = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            source={ArrowLeft}
+            style={{
+              width: 30,
+              height: 30,
+              marginLeft: 40,
+              marginTop: 30,
+              marginBottom: 50,
+            }}
+          />
+        </TouchableOpacity>
+      </View>
       <Container>
-        <ViewTitle style={{marginBottom: 0}}>
+        <ViewTitle style={{ marginBottom: 0 }}>
           <Title>Clientes</Title>
         </ViewTitle>
         <ScrollView showsVerticalScrollIndicator={false}>
-            <InputText 
-              name="Id"
-              editable="false"
-            />
-            <InputText 
-              name="Nome" 
-              onChangeText={setCustomerName}
-            />
-            <InputText 
-              name="Email" 
-              onChangeText={setCustomerEmail}
-            />
-            <InputText 
-              name="Empresa" 
-              onChangeText={setCustomerCompany}
-            />
-            <InputText 
-              name="Salario" 
-              onChangeText={setCustomerSalary}
-            />
-            <InputText 
-              name="Cidade" 
-              onChangeText={setCustomerCity}
-            />
-            <InputText 
-              name="Estado" 
-              onChangeText={setCustomerState}
-            />
-            <InputText 
-              name="Pais" 
-              onChangeText={setCustomerCountry}
-            />
-            <InputText 
-              name="CEP" 
-              onChangeText={setCustomerZipCode}
-            />
-            <InputText 
-              name="Telefone" 
-              onChangeText={setCustomerPhoneNumber}
-            />
+          <InputText name="Id" editable="false" />
+          <InputText name="Nome" onChangeText={setCustomerName} />
+          <InputText name="Email" onChangeText={setCustomerEmail} />
+          <InputText name="Empresa" onChangeText={setCustomerCompany} />
+          <InputText name="Salario" onChangeText={setCustomerSalary} />
+          <InputText name="Cidade" onChangeText={setCustomerCity} />
+          <InputText name="Estado" onChangeText={setCustomerState} />
+          <InputText name="Pais" onChangeText={setCustomerCountry} />
+          <InputText name="CEP" onChangeText={setCustomerZipCode} />
+          <InputText name="Telefone" onChangeText={setCustomerPhoneNumber} />
         </ScrollView>
-        <View style={{height:110}}>
-          <ButtonNative 
-            text={btnCadastrar} 
-            onPress={handle} 
-          />
+        <View style={{ height: 110 }}>
+          <ButtonNative text={btnCadastrar} onPress={handle} />
         </View>
       </Container>
     </SafeAreaView>

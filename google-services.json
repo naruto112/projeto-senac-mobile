@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "416144568949",
+    "project_id": "projeto-senac-mobile",
+    "storage_bucket": "projeto-senac-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416144568949:android:1594ff5b1c0403b1a0fe3c",
+        "android_client_info": {
+          "package_name": "com.projeto.go.life"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416144568949-1nbeji07k26n561ou7hpc0j94caeiasj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGicKJMtHAxAJuOz_TexDacaQQlmCKSQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416144568949-1nbeji07k26n561ou7hpc0j94caeiasj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

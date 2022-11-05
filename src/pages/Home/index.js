@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import * as Device from "expo-device";
+import React, { useState, useEffect, useRef } from "react";
 import { ActivityIndicator, Text, Image, ScrollView } from "react-native";
 import { useFonts } from "expo-font";
 import {
@@ -27,6 +28,9 @@ import DeleteImage from "../../../assets/image/trash-bin.png";
 import PlusAdd from "../../../assets/image/plus.png";
 import isAuth from "../../components/auth";
 import { apiCustomer, apiUser, apiProduct } from "../../services/apis";
+import Constants from "expo-constants";
+
+import * as Notifications from "expo-notifications";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -40,12 +44,60 @@ const Home = ({ navigation }) => {
   const [product, setProduct] = useState();
   const [loading, setLoading] = useState(false);
 
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+
+    if (Platform.OS === "android") {
+      await Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
+
+    if (Device.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+    } else {
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      alert("Must use physical device for Push Notifications");
+    }
+
+    return token;
+  }
+
   useEffect(() => {
     if (user == null) {
       apiUser.get("/api/v1/users/all").then((response) => {
         setUser(response.data);
       });
     }
+
+    registerForPushNotificationsAsync().then((token) => console.log(token));
   }, [user]);
 
   const handlegoBack = () => {
