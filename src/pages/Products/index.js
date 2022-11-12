@@ -53,7 +53,7 @@ const Products = ({ navigation }) => {
           <Title>Produtos</Title>
           <InputText 
             name="Id"
-            editable="false"
+            editable={false}
           />
           <InputText 
             name="Nome"

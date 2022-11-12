@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, SafeAreaView } from "react-native";
 import ButtonNative from "../../components/ButtonNative";
 import { apiUser } from "../../services/apis";
@@ -14,14 +14,23 @@ import {
 import InputText from "../../components/Input";
 
 const Users = ({ navigation }) => {
+  const [userId, setUserId] = useState();
   const [userName, setUserName] = React.useState();
   const [userUserName, setUserUserName] = React.useState();
   const [userPassword, setUserPassword] = React.useState();
   const [userPasswordConfirm, setPasswordConfirm] = React.useState();
-  const [userRoles, setUserRoles] = React.useState();
+  const [userRoles, setUserRoles] = useState("ROLE_ADMIN");
   const [btnCadastrar, setBtnCadastrar] = useState("Cadastrar Usuário");
+  const inputRef = useRef(null);
+  const [verifyPass, setVerifyPass] = useState(false);
+  const [style, setStyle] = useState();
 
   const handle = () => {
+    if (userPassword !== userPasswordConfirm) {
+      setVerifyPass(true);
+      return false;
+    }
+
     setBtnCadastrar("Cadastrando...");
     setStyle({
       opacity: 0.5,
@@ -54,10 +63,12 @@ const Users = ({ navigation }) => {
           <Title>Usuários</Title>
           <InputText 
             name="Id"
+            onChangeText={setUserId}
           />
           <InputText 
             name="Nome" 
-            autoCapitalize={"words"}
+            autoCapitalize={'words'}
+            autoFocus={true}
             onChangeText={setUserName}  
           />
           <InputText 
@@ -65,16 +76,23 @@ const Users = ({ navigation }) => {
             onChangeText={setUserUserName}  
           />
           <InputText 
-            name="Senha" 
+            name="Senha"
+            password={true}
             onChangeText={setUserPassword}  
           />
+          {verifyPass && (
+            <Text>
+              Senha incorreta
+            </Text>
+          )}
+          
           <InputText 
+            style={{
+              color: verifyPass ? "red" : "grey"
+            }}
             name="Confirmar Senha" 
-            onChangeText={setPasswordConfirm}  
-          />
-          <InputText 
-            name="Grupos do usuário" 
-            onChangeText={setUserRoles}  
+            password={true}
+            onChangeText={setPasswordConfirm}
           />
           <ButtonNative 
             text={btnCadastrar} 

@@ -65,7 +65,6 @@ const Customers = ({ navigation }) => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <InputText 
               name="Id"
-              editable="false"
             />
             <InputText 
               name="Nome" 

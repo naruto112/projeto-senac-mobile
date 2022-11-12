@@ -24,10 +24,6 @@ const Auth = ({ navigation }) => {
         username,
         password,
       })
-      .catch(() => {
-        setStyle({});
-        setBtnLogin("Entrar");
-      })
       .then((response) => {
         AsyncStorage.setItem("@storage_token", response.data.token);
         apiCustomer.defaults.headers.common = {
@@ -45,6 +41,8 @@ const Auth = ({ navigation }) => {
         navigation.navigate("Home");
       })
       .catch(() => {
+        setStyle({});
+        setBtnLogin("Entrar");
         handle();
       })
       .finally(() => {

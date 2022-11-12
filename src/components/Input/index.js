@@ -3,6 +3,7 @@ import { TextInput, Image, Text } from "react-native";
 import { Container } from "./styles";
 import { Entypo } from "@expo/vector-icons";
 
+
 const InputText = (props) => {
   const [text, setText] = React.useState("");
   const [password, setPassword] = React.useState(false);
@@ -30,6 +31,10 @@ const InputText = (props) => {
         placeholder={props.name}
         secureTextEntry={password}
         value={text}
+        editable={props.editable}
+        autoFocus={props.autoFocus}
+        autoCapitalize={props.autoCapitalize}
+        ref={props.ref}
         onChangeText={(value) => handleCapture(value)}
       />
     </Container>
