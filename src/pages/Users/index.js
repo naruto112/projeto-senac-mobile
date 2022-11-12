@@ -74,16 +74,28 @@ const Users = ({ navigation }) => {
             password={true}
             onChangeText={setUserPassword}
           />
-          {verifyPass && <Text>Senha incorreta</Text>}
-
-          <InputText
-            style={{
-              color: verifyPass ? "red" : "grey",
-            }}
-            name="Confirmar Senha"
-            password={true}
-            onChangeText={setPasswordConfirm}
-          />
+          {verifyPass ? (
+            <>
+              <Text>Senha incorreta</Text>
+              <InputText
+                style={{
+                  color: "red",
+                }}
+                name="Confirmar Senha"
+                password={true}
+                onChangeText={setPasswordConfirm}
+              />
+            </>
+          ) : (
+            <InputText
+              style={{
+                color: "grey",
+              }}
+              name="Confirmar Senha"
+              password={true}
+              onChangeText={setPasswordConfirm}
+            />
+          )}
           <ButtonNative text={btnCadastrar} onPress={handle} />
           <InputText name="Nome de usuário" onChangeText={setUserUserName} />
           <InputText name="Senha" onChangeText={setUserPassword} />
