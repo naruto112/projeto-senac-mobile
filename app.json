@@ -25,11 +25,7 @@
         "backgroundColor": "#FFFFFF"
       }
     },
-    "plugins": [
-      "@react-native-firebase/app",
-      "@react-native-firebase/perf",
-      "@react-native-firebase/crashlytics"
-    ],
+    "plugins": [],
     "web": {
       "favicon": "./assets/favicon.png"
     }
