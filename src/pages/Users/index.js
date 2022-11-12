@@ -25,10 +25,15 @@ const Users = ({ navigation }) => {
   const [btnCadastrar, setBtnCadastrar] = useState("Cadastrar Usuário");
   const inputRef = useRef(null);
   const [verifyPass, setVerifyPass] = useState(false);
+  const [borderStyle, setBorderStyle] = useState();
   const [style, setStyle] = useState();
 
   const handle = () => {
     if (userPassword !== userPasswordConfirm) {
+      setBorderStyle({
+        borderColor: "red",
+      });
+
       setVerifyPass(true);
       return false;
     }
@@ -61,6 +66,7 @@ const Users = ({ navigation }) => {
       <Container style={{ marginTop: 80 }}>
         <ViewTitle>
           <Title>Usuários</Title>
+          {verifyPass && <Text>Senha incorreta</Text>}
           <InputText name="Id" onChangeText={setUserId} />
           <InputText
             name="Nome"
@@ -74,33 +80,13 @@ const Users = ({ navigation }) => {
             password={true}
             onChangeText={setUserPassword}
           />
-          {verifyPass ? (
-            <>
-              <Text>Senha incorreta</Text>
-              <InputText
-                style={{
-                  color: "red",
-                }}
-                name="Confirmar Senha"
-                password={true}
-                onChangeText={setPasswordConfirm}
-              />
-            </>
-          ) : (
-            <InputText
-              style={{
-                color: "grey",
-              }}
-              name="Confirmar Senha"
-              password={true}
-              onChangeText={setPasswordConfirm}
-            />
-          )}
-          <ButtonNative text={btnCadastrar} onPress={handle} />
-          <InputText name="Nome de usuário" onChangeText={setUserUserName} />
-          <InputText name="Senha" onChangeText={setUserPassword} />
-          <InputText name="Confirmar Senha" onChangeText={setPasswordConfirm} />
-          <InputText name="Grupos do usuário" onChangeText={setUserRoles} />
+
+          <InputText
+            style={borderStyle}
+            name="Confirmar Senha"
+            password={true}
+            onChangeText={setPasswordConfirm}
+          />
           <View style={{ marginTop: 20 }}>
             <ButtonNative text={btnCadastrar} onPress={handle} />
           </View>
