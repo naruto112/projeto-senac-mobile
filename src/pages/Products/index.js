@@ -63,7 +63,7 @@ const Products = ({ navigation }) => {
       <Container style={{ marginTop: 80 }}>
         <ViewTitle>
           <Title>Produtos</Title>
-          <InputText name="Id" editable="false" />
+          <InputText name="Id" editable={false} />
           <InputText name="Nome" onChangeText={setProductName} />
           <InputText name="Preco" onChangeText={setProductPrice} />
           <InputText name="Fabricante" onChangeText={setProductManufacturer} />

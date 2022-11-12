@@ -36,8 +36,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Home = ({ navigation }) => {
-  isAuth(navigation);
-
   const [customer, setCustomer] = useState();
   const [user, setUser] = useState();
   const [navigate, setNavigate] = useState("Users");
@@ -91,6 +89,8 @@ const Home = ({ navigation }) => {
   }
 
   useEffect(() => {
+    isAuth(navigation);
+
     if (user == null) {
       apiUser.get("/api/v1/users/all").then((response) => {
         setUser(response.data);
@@ -220,7 +220,7 @@ const Home = ({ navigation }) => {
                   style={{ width: 50, height: 50, marginBottom: 10 }}
                 />
               </TouchableOpacity>
-              <BulletText>Ordem</BulletText>
+              <BulletText>Pedidos</BulletText>
             </Bullet>
           </Menu>
         </Body>

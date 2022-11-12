@@ -78,7 +78,7 @@ const Customers = ({ navigation }) => {
           <Title>Clientes</Title>
         </ViewTitle>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <InputText name="Id" editable="false" />
+          <InputText name="Id" />
           <InputText name="Nome" onChangeText={setCustomerName} />
           <InputText name="Email" onChangeText={setCustomerEmail} />
           <InputText name="Empresa" onChangeText={setCustomerCompany} />
