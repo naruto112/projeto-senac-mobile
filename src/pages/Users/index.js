@@ -136,7 +136,7 @@ const Users = ({ navigation }) => {
           <Title>Usuários</Title>
           {verifyValid && <Text style={{"justify-content":"left", color:"red"}}>Não foi possível gravar o usuário:</Text>}
           {verifyUserName && <Text style={{"text-align":"left", color:"red"}}>Informe o nome do usuário</Text>}
-          {verifyUserUserName && <Text style={{"justify-content":"left", color:"red"}}>Informe o nome de usuário</Text>}
+          {verifyUserUserName && <Text style={{"justify-content":"left", color:"red"}}>Informe o login do usuário</Text>}
           {verifyPass && <Text style={{"justify-content":"left", color:"red"}}>Digite senha válida (ao menos 10 caracteres)</Text>}
           <InputText
             style={borderStyleUserName}
@@ -146,7 +146,7 @@ const Users = ({ navigation }) => {
             onChangeText={setUserName}
             value={userName}
           />
-          <InputText name="Nome de usuário" onChangeText={setUserUserName} value={userUserName} style={borderStyleUserUserName}/>
+          <InputText name="Login" onChangeText={setUserUserName} value={userUserName} style={borderStyleUserUserName}/>
           <InputText
             style={borderStyle}
             name="Senha"
