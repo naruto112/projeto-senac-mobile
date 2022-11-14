@@ -5,7 +5,7 @@ import { Entypo } from "@expo/vector-icons";
 
 
 const InputText = (props) => {
-  const [text, setText] = React.useState("");
+  const [text, setText] = React.useState(props.value);
   const [password, setPassword] = React.useState(false);
 
   function handleCapture(params) {

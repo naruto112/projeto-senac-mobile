@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { apiUser, apiCustomer, apiProduct } from "../../services/apis";
+import { apiUser, apiCustomer, apiProduct, apiOrder } from "../../services/apis";
 import { Container, ViewTitle, Title } from "./styles";
 import InputText from "../../components/Input";
 import ButtonNative from "../../components/ButtonNative";
@@ -33,6 +33,9 @@ const Auth = ({ navigation }) => {
           Authorization: response.data.token,
         };
         apiProduct.defaults.headers.common = {
+          Authorization: response.data.token,
+        };
+        apiOrder.defaults.headers.common = {
           Authorization: response.data.token,
         };
 

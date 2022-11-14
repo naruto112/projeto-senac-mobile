@@ -76,8 +76,8 @@ const Home = ({ navigation }) => {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
-        return;
+        //alert("Failed to get push token for push notification!");
+        //return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
     } else {
@@ -162,6 +162,23 @@ const Home = ({ navigation }) => {
         setLoading(false);
       });
   };
+
+  const handleEditUser = (id) => {
+    apiUser
+      .get("api/v1/users/find-by/id/" + id)
+      .then((response) => {
+        console.log(response.data);
+        navigation.push('Users', response.data);
+      });
+  }
+
+  const handleDeleteUser = (id) => {
+    apiUser
+      .delete("api/v1/users/delete-by/id/" + id)
+      .then((response) => {
+        setUser(user.filter(e => e.id !== id));
+      });
+  }
 
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
@@ -252,11 +269,15 @@ const Home = ({ navigation }) => {
                   <Text>{u.name}</Text>
                 </AvatarImage>
                 <Control>
-                  <Image source={EditImage} style={{ width: 34, height: 34 }} />
-                  <Image
-                    source={DeleteImage}
-                    style={{ width: 30, height: 30 }}
-                  />
+                  <TouchableOpacity onPress={() => handleEditUser(u.id)} >
+                    <Image source={EditImage} style={{ width: 34, height: 34 }}/>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleDeleteUser(u.id)} >
+                    <Image
+                      source={DeleteImage}
+                      style={{ width: 30, height: 30 }}
+                    />
+                  </TouchableOpacity>
                 </Control>
               </List>
             ))}
