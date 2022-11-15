@@ -27,7 +27,7 @@ import EditImage from "../../../assets/image/edit.png";
 import DeleteImage from "../../../assets/image/trash-bin.png";
 import PlusAdd from "../../../assets/image/plus.png";
 import isAuth from "../../components/auth";
-import { apiCustomer, apiUser, apiProduct } from "../../services/apis";
+import { apiCustomer, apiUser, apiProduct, apiOrder } from "../../services/apis";
 import Constants from "expo-constants";
 
 import * as Notifications from "expo-notifications";
@@ -41,6 +41,7 @@ const Home = ({ navigation }) => {
   const [navigate, setNavigate] = useState("Users");
   const [product, setProduct] = useState();
   const [loading, setLoading] = useState(false);
+  const [order, setOrder] = useState();
 
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
@@ -109,6 +110,7 @@ const Home = ({ navigation }) => {
     setLoading(true);
     setUser("");
     setProduct();
+    setOrder();
     setNavigate("Customers");
 
     apiCustomer
@@ -128,6 +130,7 @@ const Home = ({ navigation }) => {
     setLoading(true);
     setCustomer();
     setProduct();
+    setOrder();
     setNavigate("Users");
 
     apiUser
@@ -147,6 +150,7 @@ const Home = ({ navigation }) => {
     setLoading(true);
     setCustomer();
     setUser("");
+    setOrder();
     setNavigate("Products");
 
     apiProduct
@@ -163,12 +167,56 @@ const Home = ({ navigation }) => {
       });
   };
 
+  const handleOrders = () => {
+    setLoading(true);
+    setCustomer();
+    setUser("");
+    setProduct();
+    setNavigate("Orders");
+
+    apiOrder
+      .get("/api/v1/orders/all")
+      .then((response) => {
+        setLoading(false);
+        setOrder(response.data);
+      })
+      .catch(() => {
+        handleOrders();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   const handleEditUser = (id) => {
     apiUser
       .get("api/v1/users/find-by/id/" + id)
       .then((response) => {
-        console.log(response.data);
         navigation.push('Users', response.data);
+      });
+  }
+
+  const handleEditCustomer = (id) => {
+    apiCustomer
+      .get("api/v1/customers/find-by/id/" + id)
+      .then((response) => {
+        navigation.push('Customers', response.data);
+      });
+  }
+
+  const handleEditProduct = (id) => {
+    apiProduct
+      .get("api/v1/products/find-by/id/" + id)
+      .then((response) => {
+        navigation.push('Products', response.data);
+      });
+  }
+
+  const handleEditOrder = (id) => {
+    apiOrder
+      .get("api/v1/orders/find-by/id/" + id)
+      .then((response) => {
+        navigation.push('Orders', response.data);
       });
   }
 
@@ -176,7 +224,31 @@ const Home = ({ navigation }) => {
     apiUser
       .delete("api/v1/users/delete-by/id/" + id)
       .then((response) => {
-        setUser(user.filter(e => e.id !== id));
+        setUser(user.filter(u => u.id !== id));
+      });
+  }
+
+  const handleDeleteCustomer = (id) => {
+    apiCustomer
+      .delete("api/v1/customers/delete-by/id/" + id)
+      .then((response) => {
+        setCustomer(customer.filter(c => c.id !== id));
+      });
+  }
+
+  const handleDeleteProduct = (id) => {
+    apiProduct
+      .delete("api/v1/products/delete-by/id/" + id)
+      .then((response) => {
+        setProduct(product.filter(p => p.id !== id));
+      });
+  }
+
+  const handleDeleteOrder = (id) => {
+    apiOrder
+      .delete("api/v1/orders/delete-by/id/" + id)
+      .then((response) => {
+        setOrder(order.filter(o => o.id !== id));
       });
   }
 
@@ -231,7 +303,7 @@ const Home = ({ navigation }) => {
               <BulletText>Produtos</BulletText>
             </Bullet>
             <Bullet>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handleOrders}>
                 <Image
                   source={OrderImage}
                   style={{ width: 50, height: 50, marginBottom: 10 }}
@@ -301,11 +373,15 @@ const Home = ({ navigation }) => {
                   <Text>{c.name}</Text>
                 </AvatarImage>
                 <Control>
-                  <Image source={EditImage} style={{ width: 34, height: 34 }} />
-                  <Image
-                    source={DeleteImage}
-                    style={{ width: 30, height: 30 }}
-                  />
+                  <TouchableOpacity onPress={() => handleEditCustomer(c.id)} >
+                    <Image source={EditImage} style={{ width: 34, height: 34 }} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleDeleteCustomer(c.id)} >
+                    <Image
+                      source={DeleteImage}
+                      style={{ width: 30, height: 30 }}
+                    />
+                  </TouchableOpacity>
                 </Control>
               </List>
             ))}
@@ -329,14 +405,51 @@ const Home = ({ navigation }) => {
                   <Text>{p.name}</Text>
                 </AvatarImage>
                 <Control>
-                  <Image source={EditImage} style={{ width: 34, height: 34 }} />
-                  <Image
-                    source={DeleteImage}
-                    style={{ width: 30, height: 30 }}
-                  />
+                  <TouchableOpacity onPress={() => handleEditProduct(p.id)} >
+                    <Image source={EditImage} style={{ width: 34, height: 34 }} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleDeleteProduct(p.id)} >
+                    <Image
+                      source={DeleteImage}
+                      style={{ width: 30, height: 30 }}
+                    />
+                  </TouchableOpacity>
                 </Control>
               </List>
             ))}
+
+          {order &&
+            order.map((o) => (
+              <List key={o.id}>
+                <AvatarImage>
+                  <Image
+                    source={OrderImage}
+                    style={{
+                      width: 50,
+                      height: 50,
+                      marginBottom: 10,
+                      borderRadius: 50,
+                      backgroundColor: "#E6E6E6",
+                      justifyContent: "center",
+                      marginRight: 20,
+                    }}
+                  />
+                  <Text>{o.customerName}</Text>
+                </AvatarImage>
+                <Control>
+                  <TouchableOpacity onPress={() => handleEditOrder(o.id)} >
+                    <Image source={EditImage} style={{ width: 34, height: 34 }} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleDeleteOrder(o.id)} >
+                    <Image
+                      source={DeleteImage}
+                      style={{ width: 30, height: 30 }}
+                    />
+                  </TouchableOpacity>
+                </Control>
+              </List>
+            ))}
+
         </ScrollView>
       </Table>
     </>
