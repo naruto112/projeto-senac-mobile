@@ -135,7 +135,7 @@ const Users = ({ navigation }) => {
         
       })
       .finally(() => {
-        navigation.push("Home");
+        navigation.goBack();
       });
   };
 

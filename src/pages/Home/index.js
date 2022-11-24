@@ -35,7 +35,7 @@ import {
   apiOrder,
 } from "../../services/apis";
 import * as Notifications from "expo-notifications";
-
+import { useRoute } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -54,11 +54,13 @@ const Home = ({ navigation }) => {
   const [product, setProduct] = useState();
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState();
+  const {params} = useRoute();
 
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+
 
   useEffect(() => {
     isAuth(navigation);
@@ -68,7 +70,9 @@ const Home = ({ navigation }) => {
         setUser(response.data);
       });
     }
+
   }, [user]);
+
 
   //PUSH NOTIFICATION
   async function schedulePushNotification() {
@@ -251,6 +255,7 @@ const Home = ({ navigation }) => {
   if (!fontsLoaded) {
     return null;
   }
+
 
   return (
     <>

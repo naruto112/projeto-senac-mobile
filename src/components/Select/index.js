@@ -23,16 +23,17 @@ import Check from "../../../assets/image/check.png";
 
 const Select = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [defaultvalue, setDefaultValue] = useState("");
+  const [defaultvalue, setDefaultValue] = useState(props.defaultvalue !== undefined ? props.defaultvalue : "");
   const data = props == undefined ? [] : props.data;
 
   const handleSetValue = async (value) => {
+    props.setSelected(value);
     setDefaultValue(value);
     setModalVisible(!modalVisible);
   };
 
   return (
-    <Container>
+    <Container style={props.style}>
       <TouchableOpacity
         onPress={() => {
           setModalVisible(true);
@@ -46,7 +47,7 @@ const Select = (props) => {
                   color: "#c5c5c7",
                 }}
               >
-                Selecione...
+                {props.placeholder}
               </Text>
             ) : (
               <Text>{defaultvalue}</Text>

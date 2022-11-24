@@ -35,6 +35,7 @@ const InputText = (props) => {
         autoFocus={props.autoFocus}
         autoCapitalize={props.autoCapitalize}
         ref={props.ref}
+        keyboardType={props.keyboardType}
         onChangeText={(value) => handleCapture(value)}
       />
     </Container>

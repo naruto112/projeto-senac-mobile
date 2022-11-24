@@ -46,7 +46,7 @@ const Auth = ({ navigation }) => {
 
         setStyle({});
         setBtnLogin("Entrar");
-        navigation.navigate("Home");
+        navigation.navigate("Home", {route: "auth"});
       })
       .catch(() => {
         setStyle({});
