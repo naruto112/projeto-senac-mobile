@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
 import Routes from "./src/routes";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -18,6 +19,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Routes />
+      <Toast />
     </View>
   );
 }

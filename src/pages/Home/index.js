@@ -1,6 +1,6 @@
 import * as Device from "expo-device";
 import React, { useState, useEffect, useRef } from "react";
-import { ActivityIndicator, Text, Image, ScrollView } from "react-native";
+import { ActivityIndicator, Text, Image, ScrollView, View } from "react-native";
 import { useFonts } from "expo-font";
 import Toast from "react-native-toast-message";
 import {
@@ -38,6 +38,7 @@ import * as Notifications from "expo-notifications";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -195,30 +196,60 @@ const Home = ({ navigation }) => {
   };
 
   const handleDeleteUser = (id) => {
-    apiUser.delete("api/v1/users/delete-by/id/" + id).then((response) => {
-      setUser(user.filter((u) => u.id !== id));
-    });
-  };
+    apiUser
+      .delete("api/v1/users/delete-by/id/" + id)
+      .then((response) => {
+        Toast.show({
+          type: 'error',
+          text1: "Usuário",
+          text2: "Usuário excluido!",
+        }); 
+
+        setUser(user.filter(u => u.id !== id));
+      });
+  }
 
   const handleDeleteCustomer = (id) => {
     apiCustomer
       .delete("api/v1/customers/delete-by/id/" + id)
       .then((response) => {
-        setCustomer(customer.filter((c) => c.id !== id));
+        Toast.show({
+          type: 'error',
+          text1: "Cliente",
+          text2: "Cliente excluido!",
+        }); 
+
+        setCustomer(customer.filter(c => c.id !== id));
       });
   };
 
   const handleDeleteProduct = (id) => {
-    apiProduct.delete("api/v1/products/delete-by/id/" + id).then((response) => {
-      setProduct(product.filter((p) => p.id !== id));
-    });
-  };
+    apiProduct
+      .delete("api/v1/products/delete-by/id/" + id)
+      .then((response) => {
+        Toast.show({
+          type: 'error',
+          text1: "Produto",
+          text2: "Produto excluido!",
+        }); 
+
+        setProduct(product.filter(p => p.id !== id));
+      });
+  }
 
   const handleDeleteOrder = (id) => {
-    apiOrder.delete("api/v1/orders/delete-by/id/" + id).then((response) => {
-      setOrder(order.filter((o) => o.id !== id));
-    });
-  };
+    apiOrder
+      .delete("api/v1/orders/delete-by/id/" + id)
+      .then((response) => {
+        Toast.show({
+          type: 'error',
+          text1: "Pedido",
+          text2: "Pedido excluido!",
+        }); 
+
+        setOrder(order.filter(o => o.id !== id));
+      });
+  }
 
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),

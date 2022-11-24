@@ -5,6 +5,7 @@ import { apiUser } from "../../services/apis";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ArrowLeft from "../../../assets/image/arrow-left.png";
 import { useRoute } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 import {
   Container,
@@ -41,6 +42,7 @@ const Users = ({ navigation }) => {
   let boolPass = false;
   let boolValid = false;
   let boolUserUserName = false;
+  let msgReturn = "";
 
   const handle = () => {
     if (userName === undefined || userName == "") {
@@ -125,6 +127,14 @@ const Users = ({ navigation }) => {
       .then((response) => {
         console.log(response);
         setStyle({});
+        Toast.show({
+          type: params !== undefined ? 'info' : 'success',
+          text1: "Usuário",
+          text2: params !== undefined ? "Usuário alterado!" : "Usuário cadastrado!",
+        }); 
+        
+      })
+      .finally(() => {
         navigation.push("Home");
       });
   };
@@ -142,7 +152,6 @@ const Users = ({ navigation }) => {
             style={borderStyleUserName}
             name="Nome"
             autoCapitalize={"words"}
-            autoFocus={true}
             onChangeText={setUserName}
             value={userName}
           />
