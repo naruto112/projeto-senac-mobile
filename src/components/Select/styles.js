@@ -14,6 +14,7 @@ export const Container = styled.View`
 `;
 
 export const Icon = styled(Icons)`
+  margin-right: 10px;
   top: 2px;
 `;
 
@@ -24,7 +25,7 @@ export const ViewSelect = styled.View`
 `;
 
 export const SelectValue = styled.Text`
-  color: #4b4b4b;
+  width: 200px;
 `;
 
 export const WindowModal = styled.View`
@@ -37,6 +38,5 @@ export const WindowModal = styled.View`
 `;
 
 export const ButtonText = styled.Text`
-  margin-left: 20px;
   color: #4b4b4b;
 `;

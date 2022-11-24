@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-import { View, TouchableHighlight, Image } from "react-native";
+import {
+  View,
+  TouchableHighlight,
+  Image,
+  ScrollView,
+  Text,
+} from "react-native";
 
 import {
   Container,
@@ -20,7 +26,7 @@ const Select = (props) => {
   const [defaultvalue, setDefaultValue] = useState("");
   const data = props == undefined ? [] : props.data;
 
-  const handleSetValue = async (value: string) => {
+  const handleSetValue = async (value) => {
     setDefaultValue(value);
     setModalVisible(!modalVisible);
   };
@@ -33,7 +39,19 @@ const Select = (props) => {
         }}
       >
         <ViewSelect>
-          <SelectValue>{defaultvalue ? defaultvalue : "Preco"}</SelectValue>
+          <SelectValue>
+            {!defaultvalue ? (
+              <Text
+                style={{
+                  color: "#c5c5c7",
+                }}
+              >
+                Selecione...
+              </Text>
+            ) : (
+              <Text>{defaultvalue}</Text>
+            )}
+          </SelectValue>
           <Icon name={"chevron-down"} size={20} />
         </ViewSelect>
       </TouchableOpacity>
@@ -48,34 +66,37 @@ const Select = (props) => {
             setModalVisible(!modalVisible);
           }}
         >
-        <Image source={Close} style={{ width: 20, height: 20 }} />
+          <Image source={Close} style={{ width: 20, height: 20 }} />
         </TouchableHighlight>
         <WindowModal>
-          {data && data.map((item) => (
-            <TouchableHighlight
-              key={item}
-              style={{ marginBottom: 10 }}
-              underlayColor="#ffffff00"
-              onPress={() => {
-                handleSetValue(item);
-              }}
-            >
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                {/* <Image source={Check} style={{ width: 15, height: 15 }} /> */}
-                <ButtonText>{item}</ButtonText>
-              </View>
-            </TouchableHighlight>
-          ))}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {data &&
+              data.map((item) => (
+                <TouchableHighlight
+                  key={item}
+                  style={{ marginBottom: 10 }}
+                  underlayColor="#ffffff00"
+                  onPress={() => {
+                    handleSetValue(item);
+                  }}
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    {/* <Image source={Check} style={{ width: 15, height: 15 }} /> */}
+                    <ButtonText>{item}</ButtonText>
+                  </View>
+                </TouchableHighlight>
+              ))}
+          </ScrollView>
         </WindowModal>
       </Modal>
     </Container>
   );
-}
+};
 
-export default Select;  
+export default Select;
