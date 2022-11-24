@@ -2,6 +2,7 @@ import * as Device from "expo-device";
 import React, { useState, useEffect, useRef } from "react";
 import { ActivityIndicator, Text, Image, ScrollView } from "react-native";
 import { useFonts } from "expo-font";
+import Toast from "react-native-toast-message";
 import {
   Container,
   HeaderColor,
@@ -27,13 +28,24 @@ import EditImage from "../../../assets/image/edit.png";
 import DeleteImage from "../../../assets/image/trash-bin.png";
 import PlusAdd from "../../../assets/image/plus.png";
 import isAuth from "../../components/auth";
-import { apiCustomer, apiUser, apiProduct, apiOrder } from "../../services/apis";
-import Constants from "expo-constants";
-
+import {
+  apiCustomer,
+  apiUser,
+  apiProduct,
+  apiOrder,
+} from "../../services/apis";
 import * as Notifications from "expo-notifications";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 const Home = ({ navigation }) => {
   const [customer, setCustomer] = useState();
@@ -48,47 +60,6 @@ const Home = ({ navigation }) => {
   const notificationListener = useRef();
   const responseListener = useRef();
 
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
-  });
-
-  async function registerForPushNotificationsAsync() {
-    let token;
-
-    if (Platform.OS === "android") {
-      await Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
-    }
-
-    if (Device.isDevice) {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== "granted") {
-        //alert("Failed to get push token for push notification!");
-        //return;
-      }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-    } else {
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-      alert("Must use physical device for Push Notifications");
-    }
-
-    return token;
-  }
-
   useEffect(() => {
     isAuth(navigation);
 
@@ -97,10 +68,21 @@ const Home = ({ navigation }) => {
         setUser(response.data);
       });
     }
-
-    registerForPushNotificationsAsync().then((token) => console.log(token));
   }, [user]);
 
+  //PUSH NOTIFICATION
+  async function schedulePushNotification() {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Festa !! 🎉",
+        body: "Venda realiza com sucesso.",
+        data: { data: "goes here" },
+      },
+      trigger: { seconds: 1 },
+    });
+  }
+
+  //********************************************** */
   const handlegoBack = () => {
     AsyncStorage.clear();
     navigation.navigate("SignIn");
@@ -189,68 +171,54 @@ const Home = ({ navigation }) => {
   };
 
   const handleEditUser = (id) => {
-    apiUser
-      .get("api/v1/users/find-by/id/" + id)
-      .then((response) => {
-        navigation.push('Users', response.data);
-      });
-  }
+    apiUser.get("api/v1/users/find-by/id/" + id).then((response) => {
+      navigation.push("Users", response.data);
+    });
+  };
 
   const handleEditCustomer = (id) => {
-    apiCustomer
-      .get("api/v1/customers/find-by/id/" + id)
-      .then((response) => {
-        navigation.push('Customers', response.data);
-      });
-  }
+    apiCustomer.get("api/v1/customers/find-by/id/" + id).then((response) => {
+      navigation.push("Customers", response.data);
+    });
+  };
 
   const handleEditProduct = (id) => {
-    apiProduct
-      .get("api/v1/products/find-by/id/" + id)
-      .then((response) => {
-        navigation.push('Products', response.data);
-      });
-  }
+    apiProduct.get("api/v1/products/find-by/id/" + id).then((response) => {
+      navigation.push("Products", response.data);
+    });
+  };
 
   const handleEditOrder = (id) => {
-    apiOrder
-      .get("api/v1/orders/find-by/id/" + id)
-      .then((response) => {
-        navigation.push('Orders', response.data);
-      });
-  }
+    apiOrder.get("api/v1/orders/find-by/id/" + id).then((response) => {
+      navigation.push("Orders", response.data);
+    });
+  };
 
   const handleDeleteUser = (id) => {
-    apiUser
-      .delete("api/v1/users/delete-by/id/" + id)
-      .then((response) => {
-        setUser(user.filter(u => u.id !== id));
-      });
-  }
+    apiUser.delete("api/v1/users/delete-by/id/" + id).then((response) => {
+      setUser(user.filter((u) => u.id !== id));
+    });
+  };
 
   const handleDeleteCustomer = (id) => {
     apiCustomer
       .delete("api/v1/customers/delete-by/id/" + id)
       .then((response) => {
-        setCustomer(customer.filter(c => c.id !== id));
+        setCustomer(customer.filter((c) => c.id !== id));
       });
-  }
+  };
 
   const handleDeleteProduct = (id) => {
-    apiProduct
-      .delete("api/v1/products/delete-by/id/" + id)
-      .then((response) => {
-        setProduct(product.filter(p => p.id !== id));
-      });
-  }
+    apiProduct.delete("api/v1/products/delete-by/id/" + id).then((response) => {
+      setProduct(product.filter((p) => p.id !== id));
+    });
+  };
 
   const handleDeleteOrder = (id) => {
-    apiOrder
-      .delete("api/v1/orders/delete-by/id/" + id)
-      .then((response) => {
-        setOrder(order.filter(o => o.id !== id));
-      });
-  }
+    apiOrder.delete("api/v1/orders/delete-by/id/" + id).then((response) => {
+      setOrder(order.filter((o) => o.id !== id));
+    });
+  };
 
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
@@ -314,7 +282,9 @@ const Home = ({ navigation }) => {
           </Menu>
         </Body>
         <PlusView>
-          <TouchableOpacity onPress={() => navigation.push(navigate)}>
+          <TouchableOpacity
+            onPress={async () => await schedulePushNotification()}
+          >
             <Image source={PlusAdd} style={{ width: 40, height: 40 }} />
           </TouchableOpacity>
         </PlusView>
@@ -341,10 +311,13 @@ const Home = ({ navigation }) => {
                   <Text>{u.name}</Text>
                 </AvatarImage>
                 <Control>
-                  <TouchableOpacity onPress={() => handleEditUser(u.id)} >
-                    <Image source={EditImage} style={{ width: 34, height: 34 }}/>
+                  <TouchableOpacity onPress={() => handleEditUser(u.id)}>
+                    <Image
+                      source={EditImage}
+                      style={{ width: 34, height: 34 }}
+                    />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => handleDeleteUser(u.id)} >
+                  <TouchableOpacity onPress={() => handleDeleteUser(u.id)}>
                     <Image
                       source={DeleteImage}
                       style={{ width: 30, height: 30 }}
@@ -373,10 +346,13 @@ const Home = ({ navigation }) => {
                   <Text>{c.name}</Text>
                 </AvatarImage>
                 <Control>
-                  <TouchableOpacity onPress={() => handleEditCustomer(c.id)} >
-                    <Image source={EditImage} style={{ width: 34, height: 34 }} />
+                  <TouchableOpacity onPress={() => handleEditCustomer(c.id)}>
+                    <Image
+                      source={EditImage}
+                      style={{ width: 34, height: 34 }}
+                    />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => handleDeleteCustomer(c.id)} >
+                  <TouchableOpacity onPress={() => handleDeleteCustomer(c.id)}>
                     <Image
                       source={DeleteImage}
                       style={{ width: 30, height: 30 }}
@@ -405,10 +381,13 @@ const Home = ({ navigation }) => {
                   <Text>{p.name}</Text>
                 </AvatarImage>
                 <Control>
-                  <TouchableOpacity onPress={() => handleEditProduct(p.id)} >
-                    <Image source={EditImage} style={{ width: 34, height: 34 }} />
+                  <TouchableOpacity onPress={() => handleEditProduct(p.id)}>
+                    <Image
+                      source={EditImage}
+                      style={{ width: 34, height: 34 }}
+                    />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => handleDeleteProduct(p.id)} >
+                  <TouchableOpacity onPress={() => handleDeleteProduct(p.id)}>
                     <Image
                       source={DeleteImage}
                       style={{ width: 30, height: 30 }}
@@ -437,10 +416,13 @@ const Home = ({ navigation }) => {
                   <Text>{o.customerName}</Text>
                 </AvatarImage>
                 <Control>
-                  <TouchableOpacity onPress={() => handleEditOrder(o.id)} >
-                    <Image source={EditImage} style={{ width: 34, height: 34 }} />
+                  <TouchableOpacity onPress={() => handleEditOrder(o.id)}>
+                    <Image
+                      source={EditImage}
+                      style={{ width: 34, height: 34 }}
+                    />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => handleDeleteOrder(o.id)} >
+                  <TouchableOpacity onPress={() => handleDeleteOrder(o.id)}>
                     <Image
                       source={DeleteImage}
                       style={{ width: 30, height: 30 }}
@@ -449,7 +431,6 @@ const Home = ({ navigation }) => {
                 </Control>
               </List>
             ))}
-
         </ScrollView>
       </Table>
     </>

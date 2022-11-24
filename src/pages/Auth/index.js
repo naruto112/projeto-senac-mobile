@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { apiUser, apiCustomer, apiProduct, apiOrder } from "../../services/apis";
+import {
+  apiUser,
+  apiCustomer,
+  apiProduct,
+  apiOrder,
+} from "../../services/apis";
 import { Container, ViewTitle, Title } from "./styles";
 import InputText from "../../components/Input";
 import ButtonNative from "../../components/ButtonNative";
