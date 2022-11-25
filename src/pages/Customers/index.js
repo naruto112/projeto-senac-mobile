@@ -278,12 +278,12 @@ const Customers = ({ navigation }) => {
         salary: customerSalary,
         address: customerAddress,
         email: customerEmail,
-        phonenumber: customerPhoneNumber,
+        phoneNumber: customerPhoneNumber,
         company: customerCompany,
         city: customerCity,
         state: customerState,
         country: customerCountry,
-        zipCode: customerZipCode,
+        zipcode: customerZipCode,
       })
       .catch((err) => {
         setStyle({});
