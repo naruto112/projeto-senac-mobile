@@ -198,7 +198,7 @@ const Orders = ({ navigation }) => {
             />
             {/* <InputText name="Preço de Produto" />
             <InputText name="Quantidade" /> */}
-            <ButtonNative text="Inserir" onPress={() => handleItem} />
+            <ButtonNative text="Inserir" onPress={() => handleItem()} />
           </WindowModal>
         </Modal>
       </Container>
