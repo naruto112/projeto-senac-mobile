@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, SafeAreaView, Text } from "react-native";
+import {
+  View,
+  Image,
+  SafeAreaView,
+  Text,
+  TouchableHighlight,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import ButtonNative from "../../components/ButtonNative";
 import { apiCustomer, apiProduct } from "../../services/apis";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -8,7 +16,11 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Select from "../../components/Select";
 import isAuth from "../../components/auth";
 import { useRoute } from "@react-navigation/native";
+import DatePicker from "react-native-datepicker";
 import Toast from "react-native-toast-message";
+import Modal from "react-native-modal";
+import Close from "../../../assets/image/close.png";
+import PlusAdd from "../../../assets/image/plus.png";
 
 import {
   Container,
@@ -18,152 +30,87 @@ import {
   ButtonText,
 } from "../Auth/styles";
 import InputText from "../../components/Input";
+import DateInput from "../../components/Date";
+import Checkbox from "expo-checkbox";
+import {
+  ContainerCheck,
+  ContainerLabel,
+  LabelCheck,
+  WindowModal,
+} from "./styles";
 
 const Orders = ({ navigation }) => {
   const { params } = useRoute();
-
-  const [productId, setProductId] = useState(
-    params !== undefined ? params.id : "0"
+  const [isSelected, setSelection] = useState(false);
+  const [totalOrder, setTotalOrder] = useState(
+    params !== undefined ? params.name : ""
+  );
+  const [orderName, setOrderName] = useState(
+    params !== undefined ? params.name : ""
   );
   const [productName, setProductName] = useState(
     params !== undefined ? params.name : ""
   );
-  const [productPrice, setProductPrice] = useState(
-    params !== undefined ? "" + params.price : ""
-  );
-  const [productManufacturer, setProductManufacturer] = useState(
+  const [customerList, setCustomerList] = useState(
     params !== undefined ? params.manufacturer : ""
   );
-  const [productSupplier, setProductSupplier] = useState(
-    params !== undefined ? params.supplier : ""
-  );
   const [btnCadastrar, setBtnCadastrar] = useState(
-    params !== undefined ? "Alterar Produto" : "Cadastrar Produto"
+    params !== undefined ? "Alterar Pedido" : "Cadastrar Pedido"
   );
   const [customers, setCustomers] = useState();
-
+  const [dateDelivery, setDateDelivery] = useState();
   const [borderStyleProductName, setBorderStyleProductName] = useState();
-  const [borderStyleProductPrice, setBorderStyleProductPrice] = useState();
-  const [borderStyleProductManufacturer, setBorderStyleProductManufacturer] =
-    useState();
-  const [borderStyleProductSupplier, setBorderStyleProductSupplier] =
-    useState();
+  const [borderStyleCustomerList, setBorderStyleCustomerList] = useState();
   const [style, setStyle] = useState();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [dataItem, setDataItem] = useState([]);
 
-  const [verifyProductName, setVerifyProductName] = useState(false);
-  const [verifyProductPrice, setVerifyProductPrice] = useState(false);
-  const [verifyProductManufacturer, setVerifyProductManufacturer] =
-    useState(false);
-  const [verifyProductSupplier, setVerifyProductSupplier] = useState(false);
-  const [verifyValid, setVerifyValid] = useState(false);
-
-  let boolProductName = false;
-  let boolProductPrice = false;
-  let boolProductManufacturer = false;
-  let boolProductSupplier = false;
-  let boolValid = false;
-  let msgReturn = "";
+  console.log(dateDelivery);
 
   useEffect(() => {
     isAuth(navigation);
 
     if (customers == null) {
       apiCustomer.get("api/v1/customers/all").then((response) => {
-        setCustomers(response.data);
+        setCustomers(
+          response.data.map((item) => {
+            return item.name;
+          })
+        );
       });
     }
   });
 
+  const handleItem = () => {
+    console.log("Entrou aqui");
+    setDataItem([
+      ...dataItem,
+      {
+        productName: productName,
+      },
+    ]);
+    setModalVisible(false);
+  };
+
   const handle = () => {
-    if (productName === undefined || productName == "") {
-      setBorderStyleProductName({
-        borderColor: "red",
-      });
-
-      setVerifyProductName(true);
-      boolProductName = true;
-    } else {
-      setBorderStyleProductName({
-        borderColor: "#e5e5e5",
-      });
-
-      setVerifyProductName(false);
-      boolProductName = false;
-    }
-
-    if (productPrice === undefined || productPrice == "") {
-      setBorderStyleProductPrice({
-        borderColor: "red",
-      });
-
-      setVerifyProductPrice(true);
-      boolProductPrice = true;
-    } else {
-      setBorderStyleProductPrice({
-        borderColor: "#e5e5e5",
-      });
-
-      setVerifyProductPrice(false);
-      boolProductPrice = false;
-    }
-
-    if (productManufacturer === undefined || productManufacturer == "") {
-      setBorderStyleProductManufacturer({
-        borderColor: "red",
-      });
-
-      setVerifyProductManufacturer(true);
-      boolProductManufacturer = true;
-    } else {
-      setBorderStyleProductManufacturer({
-        borderColor: "#e5e5e5",
-      });
-
-      setVerifyProductManufacturer(false);
-      boolProductManufacturer = false;
-    }
-
-    if (productSupplier === undefined || productSupplier == "") {
-      setBorderStyleProductSupplier({
-        borderColor: "red",
-      });
-
-      setVerifyProductSupplier(true);
-      boolProductSupplier = true;
-    } else {
-      setBorderStyleProductSupplier({
-        borderColor: "#e5e5e5",
-      });
-
-      setVerifyProductSupplier(false);
-      boolProductSupplier = false;
-    }
-
-    if (
-      boolProductName === true ||
-      boolProductPrice === true ||
-      boolProductManufacturer === true ||
-      boolProductSupplier === true
-    ) {
-      setVerifyValid(true);
-      return false;
-    } else {
-      setVerifyValid(false);
-    }
-
     setBtnCadastrar(params !== undefined ? "Alterando..." : "Cadastrando...");
     setStyle({
       opacity: 0.5,
     });
 
+    const dateSplit = dateDelivery.split("/");
+
     apiProduct
       .put("api/v1/orders/save", {
-        id: productId,
-        name: productName,
+        id: 0,
+        name: orderName,
         status: true,
-        price: productPrice,
-        supplier: productSupplier,
-        manufacturer: productManufacturer,
+        idCustomer: 0,
+        customerName: customerList,
+        date: "2022-11-28",
+        deliveryDate: `${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}`,
+        total: totalOrder,
+        items: dataItem,
       })
       .catch(() => {
         setStyle({});
@@ -175,88 +122,105 @@ const Orders = ({ navigation }) => {
           type: params !== undefined ? "info" : "success",
           text1: "Produto",
           text2:
-            params !== undefined ? "Produto alterado!" : "Produto cadastrado!",
+            params !== undefined ? "Pedido alterado!" : "Pedido cadastrado!",
         });
       })
       .finally(() => {
-        navigation.navigate("Home", { route: "product" });
+        navigation.navigate("Home", { route: "Pedido" });
       });
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <View>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={ArrowLeft}
-            style={{
-              width: 30,
-              height: 30,
-              marginLeft: 40,
-            }}
-          />
-        </TouchableOpacity>
-      </View> */}
       <Container style={{ marginTop: 80 }}>
         <ViewTitle>
           <Title>Pedidos</Title>
-          {verifyValid && (
-            <Text style={{ "justify-content": "left", color: "red" }}>
-              Não foi possível gravar o produto:
-            </Text>
-          )}
-          {verifyProductName && (
-            <Text style={{ "text-align": "left", color: "red" }}>
-              Informe o nome do produto
-            </Text>
-          )}
-          {verifyProductPrice && (
-            <Text style={{ "justify-content": "left", color: "red" }}>
-              Informe o preço do produto
-            </Text>
-          )}
-          {verifyProductManufacturer && (
-            <Text style={{ "justify-content": "left", color: "red" }}>
-              Selecione o fabricante do produto
-            </Text>
-          )}
-          {verifyProductSupplier && (
-            <Text style={{ "justify-content": "left", color: "red" }}>
-              Selecione o fornecedor do produto
-            </Text>
-          )}
           <InputText
             name="Nome Pedido"
-            onChangeText={setProductName}
-            value={productName}
+            onChangeText={setOrderName}
+            value={orderName}
             style={borderStyleProductName}
           />
           <Select
             data={customers}
-            defaultvalue={productManufacturer}
-            setSelected={(val) => setProductManufacturer(val)}
-            placeholder={"Fabricante"}
-            style={borderStyleProductManufacturer}
+            defaultvalue={customerList}
+            setSelected={(val) => setCustomerList(val)}
+            placeholder={"Cliente"}
+            style={borderStyleCustomerList}
           />
-          {/* <Select
-            data={companies}
-            defaultvalue={productManufacturer}
-            setSelected={(val) => setProductManufacturer(val)}
-            placeholder={"Fabricante"}
-            style={borderStyleProductManufacturer}
+          <DateInput onDateChange={setDateDelivery} />
+          <InputText
+            name="Total de Pedidos"
+            onChangeText={setTotalOrder}
+            value={totalOrder}
+            style={borderStyleProductName}
           />
-          <Select
-            data={companies}
-            defaultvalue={productSupplier}
-            setSelected={(val) => setProductSupplier(val)}
-            placeholder={"Fornecedor"}
-            style={borderStyleProductSupplier}
-          /> */}
+          <ContainerCheck>
+            <ContainerLabel>
+              <LabelCheck>Itens:</LabelCheck>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(true);
+                  setProductName("");
+                }}
+              >
+                <Image source={PlusAdd} style={{ width: 20, height: 20 }} />
+              </TouchableOpacity>
+            </ContainerLabel>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {dataItem.map((item) => (
+                <View style={styles.checkboxContainer}>
+                  <Text style={styles.label}>{item.productName}</Text>
+                </View>
+              ))}
+            </ScrollView>
+          </ContainerCheck>
           <ButtonNative text={btnCadastrar} onPress={handle} />
         </ViewTitle>
+        <Modal
+          isVisible={modalVisible}
+          onBackdropPress={() => setModalVisible(!modalVisible)}
+        >
+          <TouchableHighlight
+            underlayColor="#ffffff00"
+            style={{ width: "100%", left: 350, bottom: 8 }}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <Image source={Close} style={{ width: 20, height: 20 }} />
+          </TouchableHighlight>
+          <WindowModal>
+            <InputText
+              name="Nome do Produto"
+              onChangeText={setProductName}
+              value={productName}
+            />
+            {/* <InputText name="Preço de Produto" />
+            <InputText name="Quantidade" /> */}
+            <ButtonNative text="Inserir" onPress={() => handleItem} />
+          </WindowModal>
+        </Modal>
       </Container>
     </SafeAreaView>
   );
 };
 
 export default Orders;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
+  label: {
+    margin: 8,
+  },
+});

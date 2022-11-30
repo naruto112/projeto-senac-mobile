@@ -23,7 +23,9 @@ import Check from "../../../assets/image/check.png";
 
 const Select = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [defaultvalue, setDefaultValue] = useState(props.defaultvalue !== undefined ? props.defaultvalue : "");
+  const [defaultvalue, setDefaultValue] = useState(
+    props.defaultvalue !== undefined ? props.defaultvalue : ""
+  );
   const data = props == undefined ? [] : props.data;
 
   const handleSetValue = async (value) => {
