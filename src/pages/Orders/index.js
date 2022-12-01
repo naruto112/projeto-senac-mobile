@@ -80,6 +80,7 @@ const Orders = ({ navigation }) => {
     setDataItem([
       ...dataItem,
       {
+        idProduct: 0,
         productName: productName,
       },
     ]);
@@ -94,6 +95,21 @@ const Orders = ({ navigation }) => {
 
     const dateSplit =
       dateDelivery == undefined ? "2021-02-01" : dateDelivery.split("/");
+
+    const data = {
+      id: 0,
+      name: orderName,
+      status: true,
+      idCustomer: 0,
+      customerName: customerList,
+      date: "2022-11-28",
+      deliveryDate:
+        dateDelivery == undefined
+          ? dateSplit
+          : `${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}`,
+      total: totalOrder,
+      items: dataItem,
+    };
 
     apiOrder
       .put("api/v1/orders/save", {
