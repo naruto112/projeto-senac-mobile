@@ -22,21 +22,16 @@ import Modal from "react-native-modal";
 import Close from "../../../assets/image/close.png";
 import PlusAdd from "../../../assets/image/plus.png";
 
-import {
-  Container,
-  ViewTitle,
-  Title,
-  Button,
-  ButtonText,
-} from "../Auth/styles";
+import { Container, ViewTitle, Title } from "../Auth/styles";
 import InputText from "../../components/Input";
 import DateInput from "../../components/Date";
-import Checkbox from "expo-checkbox";
 import {
   ContainerCheck,
   ContainerLabel,
   LabelCheck,
   WindowModal,
+  Button,
+  ButtonText,
 } from "./styles";
 
 const Orders = ({ navigation }) => {
@@ -82,7 +77,6 @@ const Orders = ({ navigation }) => {
   });
 
   const handleItem = () => {
-    console.log("Entrou aqui");
     setDataItem([
       ...dataItem,
       {
@@ -169,7 +163,7 @@ const Orders = ({ navigation }) => {
             </ContainerLabel>
             <ScrollView showsVerticalScrollIndicator={false}>
               {dataItem.map((item) => (
-                <View style={styles.checkboxContainer}>
+                <View key={item.productName} style={styles.checkboxContainer}>
                   <Text style={styles.label}>{item.productName}</Text>
                 </View>
               ))}
@@ -198,7 +192,9 @@ const Orders = ({ navigation }) => {
             />
             {/* <InputText name="Preço de Produto" />
             <InputText name="Quantidade" /> */}
-            <ButtonNative text="Inserir" onPress={() => handleItem()} />
+            <Button onPress={() => handleItem()}>
+              <ButtonText>Inserir</ButtonText>
+            </Button>
           </WindowModal>
         </Modal>
       </Container>
