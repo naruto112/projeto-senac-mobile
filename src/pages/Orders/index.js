@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import ButtonNative from "../../components/ButtonNative";
-import { apiCustomer, apiProduct } from "../../services/apis";
+import { apiCustomer, apiProduct, apiOrder } from "../../services/apis";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ArrowLeft from "../../../assets/image/arrow-left.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -95,7 +95,7 @@ const Orders = ({ navigation }) => {
     const dateSplit =
       dateDelivery == undefined ? "2021-02-01" : dateDelivery.split("/");
 
-    apiProduct
+    apiOrder
       .put("api/v1/orders/save", {
         id: 0,
         name: orderName,
@@ -110,9 +110,10 @@ const Orders = ({ navigation }) => {
         total: totalOrder,
         items: dataItem,
       })
-      .catch(() => {
+      .catch((err) => {
         setStyle({});
         setBtnCadastrar("Erro");
+        console.log(err);
       })
       .then((response) => {
         setStyle({});
